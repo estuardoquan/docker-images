@@ -1,0 +1,14 @@
+FROM dqio/php:latest
+
+ADD ./tmp/root_ca.crt /usr/local/share/ca-certificates/root_ca.crt
+
+USER root
+
+RUN update-ca-certificates
+
+USER laravel
+
+WORKDIR /var/www/html
+
+# CMD ["php-fpm"]
+

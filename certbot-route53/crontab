@@ -1,0 +1,2 @@
+# min   hour    day     month   week    command
+59      11      *       *       *       certbot renew --dns-route53 

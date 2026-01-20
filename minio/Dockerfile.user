@@ -1,0 +1,24 @@
+FROM alpine:latest
+
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+
+COPY --from=minio/minio:latest /usr/bin/minio*  /usr/local/bin/
+COPY --from=minio/minio:latest /usr/bin/mc*     /usr/local/bin/
+
+RUN apk update && \
+    apk add curl && \
+    chmod +x /docker-entrypoint.sh && \
+    addgroup -g 1000 minio && \
+    adduser -u 1000 -D -S -G minio minio && \
+    mkdir -p /data && \
+    chown minio:minio /data 
+
+HEALTHCHECK CMD mc ready local
+
+WORKDIR /data
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+USER minio
+
+CMD ["minio", "server", "/data", "--console-address", ":9001"] 
