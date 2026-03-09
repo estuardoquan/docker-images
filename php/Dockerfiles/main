@@ -43,4 +43,4 @@ USER laravel
 
 WORKDIR /var/www/html
 
-# CMD ["php-fpm"]
+CMD ["php-fpm"]
